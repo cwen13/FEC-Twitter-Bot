@@ -1,0 +1,43 @@
+#
+# Want to be sent a represenative's name and return their top ten donors
+#
+# Be tweeted a name and check if it is a name and search for that name in the FEC doners list
+# List top 10 doners and dolllor amounts from this doner to individuals or commities
+
+import config
+import tweepy
+import requests
+
+auth = tweepy.OAuth2BearHandler(config.tBearerToken)
+api = tweepy.API(auth)
+
+FECAPI = config.openFECAPIkey
+
+def getFECresponse(name):
+    urlStart = "https://api.open.fec.gov/v1/schedules/schedule_a/?sort=-contribution_receipt_amount&sort_hide_null=false&contributor_type=individual&contributor_name="
+    urlEnd = "&api_key=DEMO_KEY&per_page=50&sort_null_only=false&is_individual=true"
+    urlName = name.strip().replace(" ", %20)
+
+    urlAPI = urlStart + urlName + urlEnd
+    FECresponse = request(urlAPI)
+    if FECresponse.status_code == 200:
+        FECjson = FECresponse.json()
+    else:
+        FECjson = "Not good query"
+
+    return FECjson
+
+
+def parseFECjson(FECjson):
+    results = FECjson["results"]
+    
+    for (i=0; i<10; i++):
+        results[i]["
+
+
+
+def main ():
+
+
+if __name__=="__main__":
+    main()

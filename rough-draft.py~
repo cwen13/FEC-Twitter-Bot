@@ -1,0 +1,10 @@
+#
+# Want to be sent a represenative's name and return their top ten donors
+#
+# Be tweeted a name and check if it is a represenatives name
+# - if rep's name search for their donor list
+# - if it is not search for who they onated to
+# Once this is established return the top 10 donor/donationns in dolor ammount
+# - should be one donor/donation per tweet in the donation thread as a response
+
+
