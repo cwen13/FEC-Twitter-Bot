@@ -1,4 +1,4 @@
-tweetAPIkey = "ov7Jgvw1eFaAz2HLZasjSWQ7h",
-tweetAPIkeySecret = "oWfu0Oz5bYH9OUgab6b3jbnRGPTfFrXCmwM2LfCU3PFTfpdkyK",
-tweetBearerToken = "AAAAAAAAAAAAAAAAAAAAACKQkwEAAAAA7ywvdSL7rik2HCnlKpaa1k5oCX8%3DYhJlDZiIt7p1Z9ln1TGymNwkAYllfshLTHidjNkQNClsQRvOEG",
-openFECAPIkey = "icm7Gz5RoBgTP2IYWnKbumkwTJAjlehZmdmCSPGa"}
+tAPIkey = "JlepZnKbsEwoZ6gZuMgBF76u8"
+tAPISecret = "vUOkJOkVWEECo3Kkn0MRSZfjxt1GQACiqbKsv9s45McIcl6mw3"
+tBearerToken = "AAAAAAAAAAAAAAAAAAAAADDgkwEAAAAAaflc%2Fp6dJIWB7orEo7SH1VGMOG0%3DQqvECkdLpi5IcwDlAaWgVs03RODSatTlC4LGBesasMNau2BSft"
+openFECAPIkey = "icm7Gz5RoBgTP2IYWnKbumkwTJAjlehZmdmCSPGa"

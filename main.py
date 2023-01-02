@@ -8,21 +8,12 @@
 #
 # List top 10 doners and dolllor amounts from this doner to individuals or commities
 
-import config
-import tweepy
+from config import *
 import requests
 import copy
+import requests_oauthlib
 
-FECAPI = config.openFECAPIkey
-
-def getTwitterName():
-    def bearerOauth(r):
-        r.headers["Authorization"] = f"Bearer {bearer_token[0]}"
-        r.headers["User-Agent"] = "v2TweetLookupPython"
-        return r
-    auth = tweepy.OAuth2BearerHandler(config.tBearerToken)
-    api = tweepy.API(auth)
-    
+FECAPI = openFECAPIkey
 
 def getFECresponse(name):
     urlStart = "https://api.open.fec.gov/v1/schedules/schedule_a/?sort=-contribution_receipt_amount&sort_hide_null=false&contributor_type=individual&contributor_name="
@@ -31,11 +22,9 @@ def getFECresponse(name):
     urlAPI = urlStart + urlName + urlEnd
     FECresponse = request(urlAPI)
     if FECresponse.status_code == 200:
-        FECjson = FECresponse.json()
+        return FECresponse.json()
     else:
-        FECjson = "Not good query"
-
-    return FECjson
+        return "Not good query"
 
 
 def parseFECjson(FECjson):
@@ -47,17 +36,25 @@ def parseFECjson(FECjson):
         donation["amount"] =  results[i]["contribution_receipt_amount"]
         if (results[i]["candidate_id"] == null):
             donation["receiver"] = results[i]["committee"]["name"]
-            donation["groupType"] = results[i]["committee"]["committee_label"]
         else:
             donation["receiver"] = results[i]["candidate_id"]
+        donation["groupType"] = results[i]["committee"]["committee_label"
         donations.append(copy.deepcopy(donation))
         # return list with donation info dictionaries to create tweet
     return donations
-        
 
-def createTweet(information):
+
+def twitterSignIn():
     
 
+
+def getTwitterName():
+    auth = tweepy.OAuth2BearerHandler(config.tBearerToken)
+    api = tweepy.API(auth)
+    
+                                                        
+def createTweet(information):
+    
         
 def main ():
     donorName = getTwitterName

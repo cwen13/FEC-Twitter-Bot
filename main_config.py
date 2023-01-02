@@ -1,0 +1,4 @@
+tAPIkey = "ov7Jgvw1eFaAz2HLZasjSWQ7h",
+tAPISecret = "oWfu0Oz5bYH9OUgab6b3jbnRGPTfFrXCmwM2LfCU3PFTfpdkyK",
+tBearerToken = "AAAAAAAAAAAAAAAAAAAAACKQkwEAAAAA7ywvdSL7rik2HCnlKpaa1k5oCX8%3DYhJlDZiIt7p1Z9ln1TGymNwkAYllfshLTHidjNkQNClsQRvOEG",
+openFECAPIkey = "icm7Gz5RoBgTP2IYWnKbumkwTJAjlehZmdmCSPGa"
