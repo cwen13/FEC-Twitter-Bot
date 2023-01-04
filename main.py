@@ -28,8 +28,9 @@ def getFECresponse(name):
 
 def parseFECjson(FECjson):
     results = FECjson["results"]
-    donations = []    
-    for i in range(10):
+    donations = []
+    index = len(results)-1 if len(results) < 10 else 10
+    for i in range(index):
         donation = {}
         donation["name"] = results[i]["contributor_name"]
         donation["amount"] =  results[i]["contribution_receipt_amount"]
@@ -46,6 +47,8 @@ def checkMentionsSendReply(api, since_id):
     new_since_id = since_id
     for tweet in tweepy.Cursor(api.mentions_timeline,since_id=since_id).items():
         new_since_id = max(tweet.id, new_since_id)
+        print(new_since_id)
+        print(tweet.id)
         if tweet.in_reply_to_status_id is not None:
             continue
         else:
@@ -53,13 +56,17 @@ def checkMentionsSendReply(api, since_id):
 
         donations = parseFECjson(getFECresponse(name))
 
-        donation = donations[0]
-        
-        api.update_status(
-            status = donation["name"]
-            + " gave " + str(donation["amount"]),
-            in_reply_to_status_id=tweet.id
-        )
+        if (len(donations) > 0):
+            donation = donations[0]
+            statusText = "@" + tweet._json["user"]["screen_name"] + "\n"  + donation["name"] + " gave $" + str(donation["amount"])
+            
+            api.update_status(status = statusText,
+                              in_reply_to_status_id = tweet.id,
+                              )
+        else:
+            api.update_status(status = name + " has no record of donating.",
+                              in_reply_to_status_id = tweet.id,
+                              )
                 
     return new_since_id
 
@@ -72,7 +79,7 @@ def main():
     since_id = 1
     while(True):
         since_id = checkMentionsSendReply(api, since_id)
-        time.sleep(60)
+        time.sleep(10)
                     
 
 
