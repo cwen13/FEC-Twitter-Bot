@@ -2,3 +2,7 @@ config.py
 main_config.py
 __pycache__
 .ipynb_checkpoints
+FECRESPONSE.JSON
+main_config.py
+venv/*
+discard/*
