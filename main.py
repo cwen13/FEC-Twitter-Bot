@@ -14,6 +14,8 @@ import tweepy
 import time
 import requests
 
+null = None
+
 def getFECresponse(name):
     urlStart = "https://api.open.fec.gov/v1/schedules/schedule_a/?sort=-contribution_receipt_amount&sort_hide_null=false&contributor_type=individual&contributor_name="
     urlEnd = "&api_key="+openFECAPIkey+"&per_page=50&sort_null_only=false&is_individual=true"
@@ -34,13 +36,14 @@ def parseFECjson(FECjson):
         donation = {}
         donation["name"] = results[i]["contributor_name"]
         donation["amount"] =  results[i]["contribution_receipt_amount"]
-        if (results[i]["candidate_id"] == "null"):
+        if (not results[i]["candidate_id"]):
             donation["receiver"] = results[i]["committee"]["name"]
         else:
             donation["receiver"] = results[i]["candidate_id"]
         donation["groupType"] = results[i]["committee"]["committee_label"]
         donations.append(copy.deepcopy(donation))
         # return list with donation info dictionaries to create tweet
+        
     return donations
     
 def checkMentionsSendReply(api, since_id):
@@ -56,17 +59,21 @@ def checkMentionsSendReply(api, since_id):
 
         donations = parseFECjson(getFECresponse(name))
 
-        if (len(donations) > 0):
-            donation = donations[0]
-            statusText = "@" + tweet._json["user"]["screen_name"] + "\n"  + donation["name"] + " gave $" + str(donation["amount"])
+#        if (len(donations) > 0):
+        for donation in donations:
+            tweeter = tweet._json["user"]["screen_name"]
+            statusText = "@{tweeter}\n{name}\nGave: {amount}\nTo: {receiver}\nTYPE: {groupType}".format(
+                tweeter = tweeter,
+                name = donation["name"],
+                amount = str(donation['amount']),
+                receiver = donation['receiver'],
+                groupType = donation['groupType'])
             
             api.update_status(status = statusText,
-                              in_reply_to_status_id = tweet.id,
-                              )
+                              in_reply_to_status_id = tweet.id,)
         else:
             api.update_status(status = name + " has no record of donating.",
-                              in_reply_to_status_id = tweet.id,
-                              )
+                              in_reply_to_status_id = tweet.id,)
                 
     return new_since_id
 
