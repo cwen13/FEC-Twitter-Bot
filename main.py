@@ -68,9 +68,11 @@ def checkMentionsSendReply(api, since_id):
                     amount = str(donation['amount']),
                     receiver = donation['receiver'],
                     groupType = donation['groupType'])
-                
-                api.update_status(status = statusText,
-                                  in_reply_to_status_id = tweet.id,)
+                try:
+                    api.update_status(status = statusText,
+                                      in_reply_to_status_id = tweet.id,)
+                except:
+                    print("This is a duplicate Tweet")    
         else:
             api.update_status(status = name + " has no record of donating.",
                               in_reply_to_status_id = tweet.id,)
