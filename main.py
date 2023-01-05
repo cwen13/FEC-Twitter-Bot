@@ -59,18 +59,18 @@ def checkMentionsSendReply(api, since_id):
 
         donations = parseFECjson(getFECresponse(name))
 
-#        if (len(donations) > 0):
-        for donation in donations:
-            tweeter = tweet._json["user"]["screen_name"]
-            statusText = "@{tweeter}\n{name}\nGave: {amount}\nTo: {receiver}\nTYPE: {groupType}".format(
-                tweeter = tweeter,
-                name = donation["name"],
-                amount = str(donation['amount']),
-                receiver = donation['receiver'],
-                groupType = donation['groupType'])
-            
-            api.update_status(status = statusText,
-                              in_reply_to_status_id = tweet.id,)
+        if (len(donations) > 0):
+            for donation in donations:
+                tweeter = tweet._json["user"]["screen_name"]
+                statusText = "@{tweeter}\n{name}\nGave: {amount}\nTo: {receiver}\nTYPE: {groupType}".format(
+                    tweeter = tweeter,
+                    name = donation["name"],
+                    amount = str(donation['amount']),
+                    receiver = donation['receiver'],
+                    groupType = donation['groupType'])
+                
+                api.update_status(status = statusText,
+                                  in_reply_to_status_id = tweet.id,)
         else:
             api.update_status(status = name + " has no record of donating.",
                               in_reply_to_status_id = tweet.id,)
