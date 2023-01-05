@@ -74,8 +74,12 @@ def checkMentionsSendReply(api, since_id):
                 except:
                     print("This is a duplicate Tweet")    
         else:
-            api.update_status(status = name + " has no record of donating.",
+            try: 
+                api.update_status(status = name + " has no record of donating.",
                               in_reply_to_status_id = tweet.id,)
+            except:
+                print("This is a duplicate Tweet")    
+
                 
     return new_since_id
 
