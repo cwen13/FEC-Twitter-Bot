@@ -4,4 +4,5 @@ __pycache__
 .ipynb_checkpoints
 FECRESPONSE.JSON
 main_config.py
-venv
+venv/*
+discard/*
