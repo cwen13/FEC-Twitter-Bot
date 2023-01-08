@@ -13,6 +13,8 @@ import copy
 import tweepy
 import time
 import requests
+import os
+
 
 null = None
 
@@ -47,7 +49,12 @@ def parseFECjson(FECjson):
     return donations
     
 def checkMentionsSendReply(api, since_id):
-    new_since_id = since_id
+    if (os.getenv("LAST_TWEET_ID") is None):
+        new_since_id = since_id
+    else:
+        new_since_id = int(os.getenv("LAST_TWEET_ID"))
+    os.environ["LAST_TWEET_ID"] = str(new_since_id)
+
     for tweet in tweepy.Cursor(api.mentions_timeline,since_id=since_id).items():
         new_since_id = max(tweet.id, new_since_id)
         print(new_since_id)
@@ -56,21 +63,21 @@ def checkMentionsSendReply(api, since_id):
             continue
         else:
             name = tweet._json["text"][14:].strip()
-
         donations = parseFECjson(getFECresponse(name))
-
+        reply_tweet = tweet
         if (len(donations) > 0):
             for donation in donations:
+                    
                 tweeter = tweet._json["user"]["screen_name"]
-                statusText = "@{tweeter}\n{name}\nGave: {amount}\nTo: {receiver}\nTYPE: {groupType}".format(
+                statusText = "@{tweeter}\n{name}\nGave: ${amount}\nTo: {receiver}\nTYPE: {groupType}".format(
                     tweeter = tweeter,
                     name = donation["name"],
                     amount = str(donation['amount']),
                     receiver = donation['receiver'],
                     groupType = donation['groupType'])
                 try:
-                    api.update_status(status = statusText,
-                                      in_reply_to_status_id = tweet.id,)
+                    reply_tweet = api.update_status(status = statusText,
+                                                    in_reply_to_status_id = reply_tweet.id,)
                 except:
                     print("This is a duplicate Tweet")    
         else:
